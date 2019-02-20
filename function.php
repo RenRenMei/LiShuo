@@ -66,5 +66,36 @@ function sql_split($sql, $tablepre) {
 }
 
 
+//ip篇
+
+//获取客户端ip地址
+function get_client_ip()
+{
+    var_dump($_SERVER);
+    static $ip = NULL;
+    if($ip !== NULL){
+        return $ip;
+    }
+    if(isset($_SERVER['HTTP_X_FORWARDED_FOR'])){
+      //  var_dump($_SERVER['HTTP_X_FORWARDED_FOR']);
+      $arr = explode(",",$_SERVER["HTTP_X_FORWARDED_FOR"]);
+    //   在数组中搜索键值 "red"，并返回它的键名：
+      $pos = array_search("unknown",$arr);
+      if(false !== $pos){
+           unset($arr[$pos]);
+      }
+      $ip = trim($arr[0]);
+    }elseif (isset($_SERVER['HTTP_CLIENT_IP'])){
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+    }elseif(isset($_SERVER['REMOTE_ADDR'])){
+        $ip = $_SERVER["REMOTE_ADDR"];
+    }
+    //ip合法验证
+    $ip = (false !== ip2long($ip)) ? $ip : "0.0.0.0";
+    return $ip;
+}
+
+
+
 
 
