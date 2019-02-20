@@ -92,6 +92,23 @@ function sql_split($sql, $tablepre) {
     return $ret;
 }
 
+//批量执行sql
+function sql_execute($sql,$tablepre)
+{
+   $sqls = sql_split($sql,$tablepre);
+   if(is_array($sqls)){
+       foreach($sqls as $sql){
+           if(trim($sql) !=""){
+               mysqli_query($sql);
+           }
+       }
+   }else{
+       mysqli_query($sqls);
+   }
+   return true;
+}
+
+
 
 //ip篇
 
