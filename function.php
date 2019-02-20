@@ -36,6 +36,33 @@ function delFile($dir,$file_type="")
 
 }
 
+//判断文件或文件夹是否可写
+function testwrite($d){
+    if(is_file($d)){
+        if(is_writable($d)){
+            return true;
+        }
+        return false;
+    }else{
+        $tfile = "_test.txt";
+        // “w”打开的文件只能向该文件写入。 
+        //若打开的文件不存在，则以指定的文件名建立该文件，
+        // 若打开的文件已经存在，则将该文件删去，重建一个新文件。
+        $fp = @fopen($d."/".$tfile,"w");
+        if(!$fp){
+           return false;
+        }
+        fclose($fp);
+        $rs = @unlink($d."/".$tfile);
+        if($rs){
+            return true;
+        }else{
+            return false;
+        }
+    }
+}
+
+
 
 //sql执行篇
 //批量执行.sql中的sql语句    
